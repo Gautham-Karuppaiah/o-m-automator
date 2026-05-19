@@ -25,10 +25,11 @@ cp .env.example .env  # fill in ANTHROPIC_API_KEY and SERPER_API_KEY
 Recommended flow:
 
 ```bash
-# Parse and search, write a review CSV before committing
+# Parse devices and search, writes input/review.csv
 python main.py input/devices/ --dry-run
 
-# Edit input/review.csv if anything looks wrong, then run for real
+# Check review.csv - fix any wrong model numbers or delete rows to skip
+# Then run the full pipeline (re-searches using the corrected names)
 python main.py input/review.csv
 ```
 
