@@ -1,0 +1,34 @@
+# Environment
+.env
+venv/
+.venv/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+
+# Ruff / linters
+.ruff_cache/
+
+# Project outputs
+output/
+
+# Input data (user-specific, potentially sensitive)
+input/devices/
+input/parsed_devices.csv
+input/review.csv
+
+# Claude Code internals
+.claude/
+CLAUDE.md
+MEMORY.md
+
+# Misc
+*.log
+.DS_Store

@@ -1,0 +1,75 @@
+**Project: Automated Device Documentation Compiler**
+
+**Goal:**
+Take a list of devices and automatically compile their technical datasheets and user manuals into cleaned PDFs, removing marketing fluff while preserving all technical specifications, troubleshooting guides, and diagrams.
+
+**Input:**
+- List of device names/models (CSV or text file)
+
+**Output:**
+- For each device: filtered datasheet PDF + filtered manual PDF
+- Summary report: success/failure status, pages removed, flagged items
+- Folder of failed devices for manual processing
+
+**Core Workflow:**
+
+1. **Search phase**: For each device, search web for datasheet and user manual PDFs
+2. **Fetch phase**: Download PDFs (handle direct links, product pages, multiple attempts)
+3. **Extract phase**: Locally extract text and layout metadata from each page
+4. **Evaluate phase**: Send text+metadata to Claude, get back which pages to keep
+5. **Filter phase**: Remove unwanted pages from PDFs, save cleaned versions
+6. **Report phase**: Generate summary of what was processed and what needs manual review
+
+**Key Decision: Text + Metadata Approach**
+
+Instead of sending full PDFs to Claude:
+- Extract text from each page (pdfplumber)
+- Extract layout info: has_images, has_drawings, has_tables
+- Send combined data to Claude
+- Claude evaluates relevance without needing full visual content
+- 70% cost savings vs full PDF approach
+
+**What to Keep:**
+- Technical specifications
+- Setup/installation instructions  
+- Troubleshooting guides
+- Connector/interface diagrams
+- Dimensional drawings
+- Operating instructions
+- Safety information
+
+**What to Remove:**
+- Marketing introductions
+- Company history
+- Application examples (unless troubleshooting-related)
+- Thank you pages
+- Blank pages
+- Copyright/legal pages (unless required)
+
+**Handling Edge Cases:**
+
+- Pages with no extractable text: keep + flag for manual review
+- Scanned PDFs: OCR fallback, or keep + flag
+- PDF not found: flag device for manual search
+- PDF behind login: flag for manual download
+- Multiple versions found: pick most recent/comprehensive
+
+**Error Handling:**
+
+- Track success/failure per device
+- Generate list of devices needing manual intervention
+- Provide reason codes: "PDF not found", "behind login", "uncertain pages", etc.
+
+**Performance Targets:**
+
+- 100 devices in ~5-8 minutes (parallelized)
+- Cost: ~$0.50 for 100 devices with Haiku
+- Accuracy: ~92-95% correct page filtering
+- Success rate: ~70-90% fully automated (device-dependent)
+
+**Deliverables:**
+
+1. Cleaned PDFs organized by device
+2. CSV report with columns: device, datasheet_status, manual_status, pages_kept, pages_removed, flags
+3. Folder of flagged items for review
+4. List of failed devices for manual processing
