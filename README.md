@@ -5,12 +5,12 @@ Point it at a device list. It finds and downloads the datasheets and manuals, st
 ## How it works
 
 - Parses device names from images, CSVs, PDFs, or text files
-- Searches Google (via Serper) for datasheets and manuals — two queries per device
+- Searches Google (via Serper) for datasheets and manuals - two queries per device
 - Downloads PDFs, handles product pages that link to PDFs rather than direct links
 - Uses Claude to read each page and decide keep / remove / flag
 - Outputs filtered per-device PDFs and a CSV report
 
-Images go through two Claude passes — verbatim transcription first, then classification — to avoid hallucinated model numbers.
+Images go through two Claude passes - verbatim transcription first, then classification - to avoid hallucinated model numbers.
 
 ## Setup
 
